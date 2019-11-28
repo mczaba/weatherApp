@@ -23,13 +23,6 @@ export default {
       }
     },
   },
-  created() {
-    fetch('../city.list.json')
-      .then(response => response.json())
-      .then((response) => {
-        console.log(response);
-      });
-  },
 };
 </script>
 
