@@ -1,0 +1,83 @@
+<template>
+    <ul>
+        <li v-for="(day,index) in filteredWeek" :key="day"
+            :class="{five: fiveDays, six: !fiveDays, active: index === currentDay}"
+            @click="changeDay($event)">{{ day }}</li>
+    </ul>
+</template>
+
+<script>
+export default {
+  props: ['current', 'first', 'last'],
+  data() {
+    return {
+      week: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thirsday', 'Friday', 'Saturday'],
+    };
+  },
+  computed: {
+    filteredWeek() {
+      const filWeek = [];
+      let lastDay = this.last;
+      if (lastDay < this.first) { lastDay += 7; }
+      for (let i = this.first; i <= lastDay; i += 1) {
+        if (i >= 7) {
+          filWeek.push(this.week[i - 7]);
+        } else {
+          filWeek.push(this.week[i]);
+        }
+      }
+      return filWeek;
+    },
+    fiveDays() {
+      let lastDay = this.last;
+      if (lastDay < this.first) { lastDay += 7; }
+      return ((lastDay - this.first) === 5);
+    },
+    currentDay() {
+      let currentDay = this.current;
+      if (currentDay < this.first) { currentDay += 7; }
+      return (currentDay - this.first);
+    },
+  },
+  methods: {
+    changeDay(event) {
+      const { target } = event;
+      const index = this.week.indexOf(target.textContent);
+      this.$emit('dayGotChanged', index);
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        align-items: stretch;
+        justify-content: space-around;
+        background-color: #4f545c;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    li {
+        line-height: 80px;
+        text-align: center;
+        color: white;
+        font-family: 'Roboto', sans-serif;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .five {
+        width: 25%;
+    }
+    .six {
+        width: 16.66%
+    }
+    .active {
+        background-color: lighten(#4f545c, 10%);
+    }
+</style>
