@@ -87,7 +87,6 @@ export default {
         mode: 'cors',
       }).then(response => response.json())
         .then((response) => {
-          console.log(response);
           if (response.list) {
             this.weatherList = [...response.list];
             const date = new Date(response.list[0].dt * 1000);
