@@ -11,7 +11,7 @@ export default {
   props: ['current', 'first', 'last'],
   data() {
     return {
-      week: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thirsday', 'Friday', 'Saturday'],
+      week: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     };
   },
   computed: {

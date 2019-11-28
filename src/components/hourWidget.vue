@@ -41,6 +41,7 @@ export default {
   justify-content: space-around;
   cursor: pointer;
   background-color:#4f545c;
+  font-family: 'Roboto', sans-serif;
 
   h2 {
       font-size: 20px;

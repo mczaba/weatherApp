@@ -6,7 +6,10 @@
       <button @click="backwardDay()" v-if="currentDay !== firstDay"
       id="previous-button" class="button-day">←{{ previousDay }}</button>
       <div id="main-container" v-if="weatherDisplay">
-        <h1>{{ date }}</h1>
+        <div id="flex-header">
+          <h2>{{ date }}</h2>
+          <h2>{{ city }}</h2>
+        </div>
         <current-weather :weather="dayList[currentIndex]" v-if="weatherDisplay"></current-weather>
         <div class="widget-container" :class="{end: currentDay === lastDay}">
           <hour-widget class="widget"
@@ -47,6 +50,7 @@ export default {
       currentDay: 0,
       firstDay: 0,
       lastDay: 0,
+      city: '',
     };
   },
   computed: {
@@ -93,6 +97,7 @@ export default {
             this.lastDay = endDate.getDay();
             this.weatherDisplay = true;
             this.errorDisplay = false;
+            this.city = `${response.city.name}, ${response.city.country}`;
           } else {
             this.weatherDisplay = false;
             this.errorDisplay = true;
@@ -123,7 +128,6 @@ export default {
       this.currentIndex = 0;
     },
     changeDay(day) {
-      console.log(day);
       this.currentDay = day;
       this.currentIndex = 0;
     },
@@ -155,14 +159,19 @@ export default {
   overflow: hidden;
   grid-column: 2/3;
   grid-row: 2/3;
-  h1 {
-    border-bottom: 1px solid #36393f;
+
+  #flex-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #36393f;
+  grid-column: 1 / 9;
+  grid-row: 1/2;
+  }
+  h2 {
     font-family: 'Roboto', sans-serif;
-    padding: 10px;
-    grid-column: 1 / 9;
-    grid-row: 1/2;
     margin: 0;
-    }
+    padding: 12px;
+  }
 }
 
 .grid-container {
