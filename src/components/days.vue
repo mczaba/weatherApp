@@ -72,7 +72,7 @@ export default {
     }
 
     .five {
-        width: 25%;
+        width: 20%;
     }
     .six {
         width: 16.66%
