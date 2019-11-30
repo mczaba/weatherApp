@@ -31,7 +31,7 @@ export default {
     fiveDays() {
       let lastDay = this.last;
       if (lastDay < this.first) { lastDay += 7; }
-      return ((lastDay - this.first) === 5);
+      return ((lastDay - this.first) === 4);
     },
     currentDay() {
       let currentDay = this.current;

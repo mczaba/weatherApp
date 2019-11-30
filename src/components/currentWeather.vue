@@ -33,7 +33,7 @@ export default {
       if (id === '50') {
         return `http://openweathermap.org/img/wn/${id}d@2x.png`;
       }
-      return `/img/Icons/${id}.svg`;
+      return `./img/${id}.svg`;
     },
     tempCelsius() {
       return Math.round(this.weather.main.temp - 273.5);
