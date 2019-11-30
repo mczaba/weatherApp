@@ -2,7 +2,7 @@
     <div class="container">
         <div id="main">
           <h2>{{ hour }}</h2>
-          <img :src="iconSrc" id="icon">
+          <img :src="iconSrc" id="icon" width="125px">
           <p id="temp">{{ tempCelsius }}°C</p>
         </div>
         <div id="details">
@@ -29,7 +29,11 @@ export default {
       return moment(currentDate).format('HH:mm');
     },
     iconSrc() {
-      return `http://openweathermap.org/img/wn/${this.weather.weather[0].icon}@2x.png`;
+      const id = this.weather.weather[0].icon.slice(0, 2);
+      if (id === '50') {
+        return `http://openweathermap.org/img/wn/${id}d@2x.png`;
+      }
+      return `/img/Icons/${id}.svg`;
     },
     tempCelsius() {
       return Math.round(this.weather.main.temp - 273.5);
@@ -65,6 +69,11 @@ ul {
 
   p {
     font-size:25px;
+    margin: 0;
+  }
+
+  h2 {
+    padding: 0;
   }
 }
 

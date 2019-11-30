@@ -1,33 +1,39 @@
 <template>
 <div>
-    <div class="grid-container">
+    <div class="grid-container" >
       <city-input :class="{inputSmall: weatherDisplay, inputLarge: !weatherDisplay}"
                   @cityGotChosen="getWeather($event)"></city-input>
       <button @click="backwardDay()" v-if="currentDay !== firstDay"
-      id="previous-button" class="button-day">←{{ previousDay }}</button>
-      <div id="main-container" v-if="weatherDisplay">
-        <div id="flex-header">
-          <h2>{{ date }}</h2>
-          <h2>{{ city }}</h2>
+      id="previous-button" class="button-day">{{ previousDay }}</button>
+      <transition name="flip" mode="out-in">
+        <div id="main-container" v-if="weatherDisplay">
+          <div id="flex-header">
+            <h2>{{ date }}</h2>
+            <h2>{{ city }}</h2>
+          </div>
+          <current-weather :weather="dayList[currentIndex]" v-if="weatherDisplay"></current-weather>
+          <div class="widget-container" :class="{end: currentDay === lastDay}">
+            <hour-widget class="widget"
+              v-for="(item,index) in dayList"
+              :key="index"
+              :weather="dayList[index]"
+              :index="index"
+              :currentIndex="currentIndex"
+              @clicked="changeIndex(index)"></hour-widget>
+          </div>
         </div>
-        <current-weather :weather="dayList[currentIndex]" v-if="weatherDisplay"></current-weather>
-        <div class="widget-container" :class="{end: currentDay === lastDay}">
-          <hour-widget class="widget"
-             v-for="(item,index) in dayList"
-             :key="index"
-             :weather="dayList[index]"
-             :index="index"
-             :currentIndex="currentIndex"
-             @clicked="changeIndex(index)"></hour-widget>
-        </div>
-      </div>
+      </transition>
       <button @click="forwardDay()" v-if="currentDay !== lastDay"
-      id="next-button" class="button-day">{{ nextDay }}→</button>
+      id="next-button" class="button-day">{{ nextDay }}</button>
       <days-week :current="currentDay" :first="firstDay" :last="lastDay"
-                 id="days" v-if="weatherDisplay"
+                 id="days" v-if="buttonsDisplay"
                  @dayGotChanged="changeDay($event)"></days-week>
+      <div id="errorDiv" v-if="errorDisplay">
+        <h1 > {{ errorContent }} </h1>
+        <p>Enter the name of your city follow by a coma and the
+          code of your country (example : 'Paris,fr')</p>
+      </div>
     </div>
-    <p v-if="errorDisplay"> {{ errorContent }} </p>
 </div>
 </template>
 
@@ -42,6 +48,7 @@ export default {
   name: 'app',
   data() {
     return {
+      buttonsDisplay: false,
       weatherDisplay: false,
       errorDisplay: false,
       errorContent: '',
@@ -95,6 +102,7 @@ export default {
             const endDate = new Date(response.list[39].dt * 1000);
             this.lastDay = endDate.getDay();
             this.weatherDisplay = true;
+            this.buttonsDisplay = true;
             this.errorDisplay = false;
             this.city = `${response.city.name}, ${response.city.country}`;
           } else {
@@ -109,24 +117,29 @@ export default {
           this.errorContent = error;
         });
     },
-    getIndexDay(index) {
-      const date = new Date(this.weatherList[index].dt * 1000);
-      return date.getDay();
-    },
     changeIndex(index) {
       this.currentIndex = index;
     },
+    flip() {
+      this.weatherDisplay = false;
+      setTimeout(() => {
+        this.weatherDisplay = true;
+      }, 500);
+    },
     forwardDay() {
+      this.flip();
       this.currentDay += 1;
       if (this.currentDay === 7) { this.currentDay = 0; }
       this.currentIndex = 0;
     },
     backwardDay() {
+      this.flip();
       this.currentDay -= 1;
       if (this.currentDay === -1) { this.currentDay = 6; }
       this.currentIndex = 0;
     },
     changeDay(day) {
+      this.flip();
       this.currentDay = day;
       this.currentIndex = 0;
     },
@@ -189,7 +202,7 @@ export default {
   border: none;
   border-radius: 10px;
   color: white;
-  font-size: 40px;
+  font-size: 33px;
   cursor: pointer;
 }
 #previous-button {
@@ -218,8 +231,41 @@ export default {
 }
 body {
   background-color: #36393f;
-  // background-image: url(https://media.giphy.com/media/l0Iy5fjHyedk9aDGU/giphy.gif);
-  // background-size: cover;
 }
 
+@keyframes flip-out {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(90deg);
+  }
+}
+
+@keyframes flip-in {
+  from {
+    transform: rotateY(90deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
+}
+.flip-enter-active {
+  animation: flip-in 0.5s ease-out forwards;
+}
+
+.flip-leave-active {
+  animation: flip-out 0.5s ease-out forwards;
+}
+
+#errorDiv {
+  font-family: 'Roboto', sans-serif;
+  background-color: #4f545c83;
+  border-radius: 10px;
+  grid-column: 2/3;
+  grid-row: 2/3;
+  color: white;
+  text-align: center;
+  height: 150px;
+}
 </style>

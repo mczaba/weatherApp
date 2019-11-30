@@ -28,7 +28,7 @@ export default {
 
 <style lang="scss" scoped>
     input {
-        width: calc(85% - 46px);
+        width: calc(100% - 176px);
         height: 35px;
         margin-right: 30px;
         border-radius: 5px;
@@ -39,7 +39,7 @@ export default {
         color: white;
     }
     button {
-        width: 15%;
+        width: 130px;
         height: 35px;
         border: none;
         border-radius: 5px;
