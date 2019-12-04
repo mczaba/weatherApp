@@ -4,8 +4,9 @@
       type="text"
       placeholder="Enter the city followed by the country code if necessary (ex: Paris,fr)"
       v-model="cityInput"
+      :class="{trans: trans}"
       @keydown="keyDown"/>
-    <button @click="sendData">Get Weather</button>
+    <button @click="sendData" :class="{trans: trans}">Get Weather</button>
   </div>
 </template>
 
@@ -16,6 +17,7 @@ export default {
       cityInput: '',
     };
   },
+  props: ['trans'],
   methods: {
     sendData() {
       this.$emit('cityGotChosen', this.cityInput);

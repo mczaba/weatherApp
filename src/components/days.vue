@@ -1,14 +1,14 @@
 <template>
-    <ul>
+    <ul :class="{trans: trans}">
         <li v-for="(day,index) in filteredWeek" :key="day"
-            :class="{five: fiveDays, six: !fiveDays, active: index === currentDay}"
+            :class="{five: fiveDays, six: !fiveDays, active: index === currentDay, trans: trans}"
             @click="changeDay($event)">{{ day }}</li>
     </ul>
 </template>
 
 <script>
 export default {
-  props: ['current', 'first', 'last'],
+  props: ['current', 'first', 'last', 'trans'],
   data() {
     return {
       week: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],

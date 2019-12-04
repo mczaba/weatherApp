@@ -1,6 +1,6 @@
 <template>
 <div :class="mode">
-  <nav>
+  <nav :class="{trans: trans}">
     <h1>Weather App</h1>
     <div class="toggle-container">
       <img src="/img/moon.png" alt="" width="30px">
@@ -11,18 +11,20 @@
   <div class="grid-container" >
     <city-input
       :class="{inputSmall: (errorDisplay || buttonsDisplay),
-              inputLarge: !(errorDisplay || buttonsDisplay),
-              trans: trans}"
+              inputLarge: !(errorDisplay || buttonsDisplay)}"
+      :trans="trans"
       @cityGotChosen="getWeather($event)"
       >
     </city-input>
-    <button
-      @click="backwardDay()"
-      v-if="currentDay !== firstDay"
-      id="previous-button"
-      class="button-day"
-      :class="{trans: trans}"
-      >{{ previousDay }}</button>
+    <transition  name="fade">
+      <button
+        @click="backwardDay()"
+        v-if="currentDay !== firstDay"
+        id="previous-button"
+        class="button-day"
+        :class="{trans: trans}"
+        >{{ previousDay }}</button>
+    </transition>
     <transition name="flip" mode="out-in">
       <div id="main-container" v-if="weatherDisplay" :class="{trans: trans}">
         <div id="flex-header">
@@ -42,20 +44,23 @@
         </div>
       </div>
     </transition>
-    <button
-      @click="forwardDay()"
-      v-if="currentDay !== lastDay"
-      id="next-button"
-      class="button-day"
-      :class="{trans: trans}">{{ nextDay }}</button>
+    <transition  name="fade">
+      <button
+        @click="forwardDay()"
+        v-if="currentDay !== lastDay"
+        id="next-button"
+        class="button-day"
+        :class="{trans: trans}">{{ nextDay }}</button>
+    </transition>
     <transition name="fade">
         <days-week
           id="days"
           :current="currentDay"
-          :first="firstDay" :last="lastDay"
+          :first="firstDay"
+          :last="lastDay"
+          :trans="trans"
           v-if="buttonsDisplay"
-          @dayGotChanged="changeDay($event)"
-          :class="{trans: trans}">
+          @dayGotChanged="changeDay($event)">
         </days-week>
     </transition>
     <div id="errorDiv" v-if="errorDisplay">
@@ -220,7 +225,7 @@ export default {
   right: 0;
   bottom: 0;
   background-color: var(--background-main);
-  transition: all 0.5s ease-in-out;
+  transition: all 1s ease-in-out;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -355,18 +360,16 @@ body {
   height: 150px;
 }
 .trans {
-  transition: all 0.5s ease-in-out;
+  transition: all 1s ease-in-out;
 }
 
-.fade-enter {
-  opacity: 0;
-}
 .fade-enter-active {
   transition: opacity 1s;
-  opacity: 1;
 }
 .fade-leave-active {
-  transition: opacity 1s;
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to {
   opacity: 0;
 }
 </style>
