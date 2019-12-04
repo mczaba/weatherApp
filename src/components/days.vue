@@ -57,7 +57,7 @@ export default {
         display: flex;
         align-items: stretch;
         justify-content: space-around;
-        background-color: #4f545c;
+        background-color: var(--background-secondary);
         border-radius: 10px;
         overflow: hidden;
     }
@@ -65,7 +65,7 @@ export default {
     li {
         line-height: 80px;
         text-align: center;
-        color: white;
+        color: var(--text-color);
         font-family: 'Roboto', sans-serif;
         font-size: 20px;
         cursor: pointer;
@@ -78,6 +78,6 @@ export default {
         width: 16.66%
     }
     .active {
-        background-color: lighten(#4f545c, 10%);
+        background-color: var(--background-secondary-active);
     }
 </style>

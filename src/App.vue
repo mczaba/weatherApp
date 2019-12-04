@@ -1,39 +1,69 @@
 <template>
-<div>
-    <div class="grid-container" >
-      <city-input :class="{inputSmall: weatherDisplay, inputLarge: !weatherDisplay}"
-                  @cityGotChosen="getWeather($event)"></city-input>
-      <button @click="backwardDay()" v-if="currentDay !== firstDay"
-      id="previous-button" class="button-day">{{ previousDay }}</button>
-      <transition name="flip" mode="out-in">
-        <div id="main-container" v-if="weatherDisplay">
-          <div id="flex-header">
-            <h2>{{ date }}</h2>
-            <h2>{{ city }}</h2>
-          </div>
-          <current-weather :weather="dayList[currentIndex]" v-if="weatherDisplay"></current-weather>
-          <div class="widget-container" :class="{end: currentDay === lastDay}">
-            <hour-widget class="widget"
-              v-for="(item,index) in dayList"
-              :key="index"
-              :weather="dayList[index]"
-              :index="index"
-              :currentIndex="currentIndex"
-              @clicked="changeIndex(index)"></hour-widget>
-          </div>
-        </div>
-      </transition>
-      <button @click="forwardDay()" v-if="currentDay !== lastDay"
-      id="next-button" class="button-day">{{ nextDay }}</button>
-      <days-week :current="currentDay" :first="firstDay" :last="lastDay"
-                 id="days" v-if="buttonsDisplay"
-                 @dayGotChanged="changeDay($event)"></days-week>
-      <div id="errorDiv" v-if="errorDisplay">
-        <h1 > {{ errorContent }} </h1>
-        <p>Enter the name of your city follow by a coma and the
-          code of your country (example : 'Paris,fr')</p>
-      </div>
+<div :class="mode">
+  <nav>
+    <h1>Weather App</h1>
+    <div class="toggle-container">
+      <img src="/img/moon.png" alt="" width="30px">
+      <toggle :mode="mode" @toggle="changeMode()"></toggle>
+      <img src="/img/sun.png" alt="" width="30px">
     </div>
+  </nav>
+  <div class="grid-container" >
+    <city-input
+      :class="{inputSmall: (errorDisplay || buttonsDisplay),
+              inputLarge: !(errorDisplay || buttonsDisplay),
+              trans: trans}"
+      @cityGotChosen="getWeather($event)"
+      >
+    </city-input>
+    <button
+      @click="backwardDay()"
+      v-if="currentDay !== firstDay"
+      id="previous-button"
+      class="button-day"
+      :class="{trans: trans}"
+      >{{ previousDay }}</button>
+    <transition name="flip" mode="out-in">
+      <div id="main-container" v-if="weatherDisplay" :class="{trans: trans}">
+        <div id="flex-header">
+          <h2>{{ date }}</h2>
+          <h2>{{ city }}</h2>
+        </div>
+        <current-weather :weather="dayList[currentIndex]" v-if="weatherDisplay"></current-weather>
+        <div class="widget-container" :class="{end: currentDay === lastDay, trans: trans}">
+          <hour-widget class="widget"
+            :class="{trans: trans}"
+            v-for="(item,index) in dayList"
+            :key="index"
+            :weather="dayList[index]"
+            :index="index"
+            :currentIndex="currentIndex"
+            @clicked="changeIndex(index)"></hour-widget>
+        </div>
+      </div>
+    </transition>
+    <button
+      @click="forwardDay()"
+      v-if="currentDay !== lastDay"
+      id="next-button"
+      class="button-day"
+      :class="{trans: trans}">{{ nextDay }}</button>
+    <transition name="fade">
+        <days-week
+          id="days"
+          :current="currentDay"
+          :first="firstDay" :last="lastDay"
+          v-if="buttonsDisplay"
+          @dayGotChanged="changeDay($event)"
+          :class="{trans: trans}">
+        </days-week>
+    </transition>
+    <div id="errorDiv" v-if="errorDisplay">
+      <h1 > {{ errorContent }} </h1>
+      <p>Enter the name of your city follow by a coma and the
+        code of your country (example : 'Paris,fr')</p>
+    </div>
+  </div>
 </div>
 </template>
 
@@ -43,11 +73,14 @@ import cityInput from './components/CityInput.vue';
 import currentWeather from './components/currentWeather.vue';
 import hourWidget from './components/hourWidget.vue';
 import daysWeek from './components/days.vue';
+import toggle from './components/toggle.vue';
 
 export default {
   name: 'app',
   data() {
     return {
+      trans: false,
+      mode: 'dark',
       buttonsDisplay: false,
       weatherDisplay: false,
       errorDisplay: false,
@@ -87,6 +120,7 @@ export default {
     'current-weather': currentWeather,
     'hour-widget': hourWidget,
     'days-week': daysWeek,
+    toggle,
   },
   methods: {
     getWeather(city) {
@@ -143,31 +177,85 @@ export default {
       this.currentDay = day;
       this.currentIndex = 0;
     },
+    changeMode() {
+      this.trans = true;
+      setTimeout(() => {
+        this.trans = false;
+      }, 500);
+      if (this.mode === 'dark') {
+        this.mode = 'light';
+      } else {
+        this.mode = 'dark';
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Roboto', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.dark {
+  --text-color: white;
+  --headings-color: white;
+  --background-main: #36393f;
+  --background-secondary: #4f545c;
+  --background-secondary-active: #676d77;
+  --background-buttons: #4f545c83;
+  --borders: #36393f;
 }
+
+.light {
+  --text-color: #333333;
+  --headings-color: #0077FF;
+  --background-main: #FCFCFC;
+  --background-secondary: #EBEBEB;
+  --background-secondary-active: #d2d2d2;
+  --background-buttons: #EBEBEB;
+  --borders: #aeaeae;
+}
+
+.dark, .light {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--background-main);
+  transition: all 0.5s ease-in-out;
+  font-family: 'Roboto', sans-serif;
+}
+
+nav {
+  background-color: var(--background-secondary);
+  color: var(--text-color);
+  height: 60px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  div {
+    display: flex;
+    align-items: center;
+
+  }
+}
+body {
+  background-color: var(--background-main);
+}
+
 .inputSmall {
   grid-column: 2/3;
   grid-row: 1/2;
+  transition: transform 0.5s ease-in-out;
 }
 .inputLarge {
   grid-column: 2/3;
-  grid-row: 1/3;
+  grid-row: 1/2;
+  transform: translateY(300px);
+  transition: transform 0.5s ease-in-out;
 }
 #main-container {
-  background-color: #4f545c;
+  background-color: var(--background-secondary);
   border-radius: 10px;
-  color: white;
+  color: var(--text-color);
   overflow: hidden;
   grid-column: 2/3;
   grid-row: 2/3;
@@ -175,7 +263,7 @@ export default {
   #flex-header {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #36393f;
+  border-bottom: 1px solid var(--borders);
   grid-column: 1 / 9;
   grid-row: 1/2;
   }
@@ -197,11 +285,11 @@ export default {
   grid-row-gap: 80px;
 }
 .button-day {
-  background-color: #4f545c83;
+  background-color: var(--background-buttons);
   margin: 5em 0 5em 0;
   border: none;
   border-radius: 10px;
-  color: white;
+  color: var(--text-color);
   font-size: 33px;
   cursor: pointer;
 }
@@ -223,15 +311,13 @@ export default {
 .widget-container {
   display: flex;
   justify-content: flex-end;
-  background-color: darken(#4f545c, 5%);
+  background-color: var(--background-secondary);
 }
 
 .end {
   justify-content: flex-start;
 }
-body {
-  background-color: #36393f;
-}
+
 
 @keyframes flip-out {
   from {
@@ -260,12 +346,27 @@ body {
 
 #errorDiv {
   font-family: 'Roboto', sans-serif;
-  background-color: #4f545c83;
+  background-color: var(--background-secondary);
   border-radius: 10px;
   grid-column: 2/3;
   grid-row: 2/3;
-  color: white;
+  color: var(--text-color);
   text-align: center;
   height: 150px;
+}
+.trans {
+  transition: all 0.5s ease-in-out;
+}
+
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  transition: opacity 1s;
+  opacity: 1;
+}
+.fade-leave-active {
+  transition: opacity 1s;
+  opacity: 0;
 }
 </style>

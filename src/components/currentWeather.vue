@@ -54,14 +54,14 @@ ul {
 }
 .container {
   display: flex;
-  border-bottom: 1px solid #36393f;
+  border-bottom: 1px solid var(--borders);
   height: 55%;
   font-family: 'Roboto', sans-serif;
 }
 
 #main {
   width: 25%;
-  border-right: 1px solid #36393f;
+  border-right: 1px solid var(--borders);
   display: flex;
   flex-direction: column;
   align-items: center;

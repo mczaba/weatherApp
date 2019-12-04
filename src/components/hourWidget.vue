@@ -38,13 +38,13 @@ export default {
 <style lang="scss" scoped>
 .container {
   width: calc(12.5% - 1px);
-  border-left: 1px solid #36393f;
+  border-left: 1px solid var(--borders);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
   cursor: pointer;
-  background-color:#4f545c;
+  background-color:var(--background-secondary);
   font-family: 'Roboto', sans-serif;
 
   h2 {
@@ -63,6 +63,6 @@ export default {
 }
 
 .active {
-    background-color: lighten(#4f545c, 10%);
+    background-color: var(--background-secondary-active);
 }
 </style>

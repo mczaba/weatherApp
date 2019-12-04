@@ -1,7 +1,10 @@
 <template>
   <div class="container">
-    <input type="text" placeholder="Enter the city and country"
-      v-model="cityInput" @keydown="keyDown"/>
+    <input
+      type="text"
+      placeholder="Enter the city followed by the country code if necessary (ex: Paris,fr)"
+      v-model="cityInput"
+      @keydown="keyDown"/>
     <button @click="sendData">Get Weather</button>
   </div>
 </template>
@@ -35,16 +38,16 @@ export default {
         border: none;
         padding-left: 10px;
         font-size: 15px;
-        background-color: #4f545c;
-        color: white;
+        background-color: var(--background-secondary);
+        color: var(--text-color);
     }
     button {
         width: 130px;
         height: 35px;
         border: none;
         border-radius: 5px;
-        background-color: #4f545c;
-        color: white;
+        background-color: var(--background-secondary);
+        color: var(--text-color);
         font-size: 15px;
         font-weight: bold;
     }
