@@ -166,12 +166,14 @@ export default {
       }, 500);
     },
     forwardDay() {
+      if (this.currentDay === this.lastDay) { return; }
       this.flip();
       this.currentDay += 1;
       if (this.currentDay === 7) { this.currentDay = 0; }
       this.currentIndex = 0;
     },
     backwardDay() {
+      if (this.currentDay === this.firstDay) { return; }
       this.flip();
       this.currentDay -= 1;
       if (this.currentDay === -1) { this.currentDay = 6; }
