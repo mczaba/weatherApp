@@ -200,10 +200,14 @@ export default {
 </script>
 
 <style lang="scss">
+
+
 html, body {
     margin: 0;
-    height: 100%;
+    padding: 0;
 }
+
+
 .dark {
   --text-color: white;
   --headings-color: white;
@@ -225,8 +229,7 @@ html, body {
 }
 
 .dark, .light {
-  height: 100%;
-  width: 100%;
+  min-height: 100vh;
   margin: 0;
   background-color: var(--background-main);
   transition: all 1s ease-in-out;
@@ -245,9 +248,6 @@ nav {
     align-items: center;
 
   }
-}
-body {
-  background-color: var(--background-main);
 }
 
 .inputSmall {
@@ -286,7 +286,7 @@ body {
 .grid-container {
   width: 80%;
   height: 500px;
-  margin: 80px auto;
+  margin: 80px auto 0 auto;
   display: grid;
   grid-template-columns: 1fr 55% 1fr;
   grid-template-rows: 35px 500px 80px;
