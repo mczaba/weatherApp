@@ -232,7 +232,7 @@ html, body {
   min-height: 100vh;
   margin: 0;
   background-color: var(--background-main);
-  transition: all 1s ease-in-out;
+  transition: background-color 1s ease-in-out;
   font-family: 'Roboto', sans-serif;
 }
 
