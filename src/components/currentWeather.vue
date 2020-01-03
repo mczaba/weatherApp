@@ -2,7 +2,7 @@
     <div class="container">
         <div id="main">
           <h2>{{ hour }}</h2>
-          <img :src="iconSrc" id="icon" width="125px">
+          <img :src="iconSrc" id="icon">
           <p id="temp">{{ tempCelsius }}°C</p>
         </div>
         <div id="details">
@@ -82,6 +82,12 @@ ul {
   h2 {
     text-align: center;
   }
+}
+
+#icon {
+  width: 80%;
+  min-width: 75px;
+  max-width: 150px;
 }
 
 </style>

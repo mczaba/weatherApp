@@ -32,25 +32,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    input {
-        width: calc(100% - 176px);
-        height: 35px;
-        margin-right: 30px;
-        border-radius: 5px;
+  .container {
+    height: 35px;
+    background-color: var(--background-secondary);
+    color: var(--text-color);
+    border-radius: 5px;
+    font-size: 15px;
+    overflow: hidden;
+    display: flex;
+  }
+
+  input {
+        width: calc(100% - 131px);
+        height: 100%;
         border: none;
+        border-right: 1px solid var(--borders);
         padding-left: 10px;
+        background-color: var(--background-secondary);
+        color: var(--text-color);
         font-size: 15px;
-        background-color: var(--background-secondary);
-        color: var(--text-color);
-    }
-    button {
+  }
+  input:focus {
+    outline: none;
+  }
+
+  button {
         width: 130px;
-        height: 35px;
+        height: 100%;
         border: none;
-        border-radius: 5px;
-        background-color: var(--background-secondary);
-        color: var(--text-color);
         font-size: 15px;
         font-weight: bold;
+        background-color: var(--background-secondary);
+        color: var(--text-color);
     }
 </style>

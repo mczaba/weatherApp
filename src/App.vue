@@ -251,15 +251,15 @@ nav {
 }
 
 .inputSmall {
-  grid-column: 2/3;
+  grid-column: 1/4;
   grid-row: 1/2;
   transition: transform 0.5s ease-in-out;
 }
 .inputLarge {
-  grid-column: 2/3;
+  grid-column: 1/4;
   grid-row: 1/2;
   transform: translateY(300px);
-  transition: transform 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 #main-container {
   background-color: var(--background-secondary);
@@ -364,6 +364,11 @@ nav {
   .widget-container {
     flex-direction: column;
   }
+
+  .inputLarge{
+    transform: none;
+  }
+
 }
 
 
