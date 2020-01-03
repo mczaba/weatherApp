@@ -1,7 +1,7 @@
 <template>
     <div class="container" @click="gotClicked()" :class="{active: index === currentIndex}">
         <h2>{{ hour }}</h2>
-        <img :src="iconSrc" id="icon" width="75px">
+        <img :src="iconSrc" id="icon">
         <p id="temp">{{ tempCelsius }}°C</p>
     </div>
 </template>
@@ -57,6 +57,10 @@ export default {
 
 }
 
+#icon {
+  width: 75px;
+}
+
 .container:first-child {
     border: none;
     width: 12.5%;
@@ -64,5 +68,21 @@ export default {
 
 .active {
     background-color: var(--background-secondary-active);
+}
+
+@media screen and (max-width: 850px) {
+  .container {
+    flex-direction: row;
+    width: 100%;
+    height: 40px;
+    border-left: none;
+    border-top: 1px solid var(--borders);
+  }
+  .container:first-child {
+    width: 100%;
+  }
+  #icon {
+    width: 50px;
+  }
 }
 </style>

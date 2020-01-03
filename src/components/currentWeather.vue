@@ -55,7 +55,7 @@ ul {
 .container {
   display: flex;
   border-bottom: 1px solid var(--borders);
-  height: 55%;
+  height: 275px;;
   font-family: 'Roboto', sans-serif;
 }
 

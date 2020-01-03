@@ -270,11 +270,9 @@ nav {
   grid-row: 2/3;
 
   #flex-header {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--borders);
-  grid-column: 1 / 9;
-  grid-row: 1/2;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--borders);
   }
   h2 {
     font-family: 'Roboto', sans-serif;
@@ -285,14 +283,14 @@ nav {
 
 .grid-container {
   width: 80%;
-  height: 500px;
-  margin: 80px auto 0 auto;
+  margin: 50px auto 0 auto;
   display: grid;
   grid-template-columns: 1fr 55% 1fr;
   grid-template-rows: 35px 500px 80px;
   grid-column-gap: 10%;
   grid-row-gap: 80px;
 }
+
 .button-day {
   background-color: var(--background-buttons);
   margin: 5em 0 5em 0;
@@ -325,6 +323,47 @@ nav {
 
 .end {
   justify-content: flex-start;
+}
+
+@media screen and (max-width: 1500px){
+  .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 20px;
+    grid-row-gap: 50px;
+  }
+  .inputSmall, .inputLarge {
+    grid-column:1/3;
+  }
+  #main-container {
+    grid-column: 1/3;
+  }
+  #days {
+    display: none;
+  }
+  .button-day {
+    margin: 0;
+  }
+  #previous-button {
+    grid-column: 1/2;
+    grid-row: 3/4;
+  }
+  #next-button {
+    grid-column: 2/3;
+    grid-row: 3/4;
+  }
+}
+
+@media screen and (max-width: 850px){
+  .grid-container{
+    width: 95%;
+    grid-template-rows: 35px 1fr 80px;
+    grid-auto-rows: min-content;
+    grid-row-gap: 30px;
+  }
+
+  .widget-container {
+    flex-direction: column;
+  }
 }
 
 
