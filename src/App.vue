@@ -144,6 +144,7 @@ export default {
             this.buttonsDisplay = true;
             this.errorDisplay = false;
             this.city = `${response.city.name}, ${response.city.country}`;
+            this.flip();
           } else {
             this.weatherDisplay = false;
             this.errorDisplay = true;
@@ -251,12 +252,12 @@ nav {
 }
 
 .inputSmall {
-  grid-column: 1/4;
+  grid-column: 2/3;
   grid-row: 1/2;
   transition: transform 0.5s ease-in-out;
 }
 .inputLarge {
-  grid-column: 1/4;
+  grid-column: 2/3;
   grid-row: 1/2;
   transform: translateY(300px);
   transition: all 0.5s ease-in-out;
@@ -325,40 +326,64 @@ nav {
   justify-content: flex-start;
 }
 
-@media screen and (max-width: 1500px){
+@media screen and (max-width: 1600px){
   .grid-container {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-column-gap: 20px;
     grid-row-gap: 50px;
+    width: calc(100% - 100px);
   }
   .inputSmall, .inputLarge {
-    grid-column:1/3;
+    grid-column:1/2;
   }
   #main-container {
-    grid-column: 1/3;
+    grid-column: 1/2;
   }
   #days {
-    display: none;
+   grid-column: 1/2
   }
   .button-day {
     margin: 0;
   }
   #previous-button {
-    grid-column: 1/2;
-    grid-row: 3/4;
+    display: none;
   }
   #next-button {
-    grid-column: 2/3;
-    grid-row: 3/4;
+    display: none;
   }
 }
 
 @media screen and (max-width: 850px){
   .grid-container{
-    width: 95%;
+    width: calc(100% - 20px);
     grid-template-rows: 35px 1fr 80px;
+    grid-template-columns: 1fr 1fr;
     grid-auto-rows: min-content;
-    grid-row-gap: 30px;
+    grid-gap: 10px;
+    margin: 10px 10px 0 10px;
+  }
+
+  #main-container {
+    grid-column: 1/3;
+  }
+
+  .inputSmall, .inputLarge {
+    grid-column:1/3;
+  }
+  #days {
+    display: none;
+  }
+
+  #previous-button {
+    grid-column: 1/2;
+    grid-row: 3/4;
+    display: block;
+  }
+
+  #next-button {
+    grid-column: 2/3;
+    grid-row: 3/4;
+    display: block;
   }
 
   .widget-container {
