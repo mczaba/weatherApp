@@ -129,7 +129,7 @@ export default {
   },
   methods: {
     getWeather(city) {
-      fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&APPID=c8f41c6f40b85c060fba58b42ce577ee`, {
+      fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&APPID=${process.env.VUE_APP_APIKEY}`, {
         mode: 'cors',
       }).then(response => response.json())
         .then((response) => {
