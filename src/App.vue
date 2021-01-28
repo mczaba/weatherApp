@@ -134,10 +134,12 @@ export default {
       }).then(response => response.json())
         .then((response) => {
           if (response.list) {
+            console.log('cc');
             this.weatherList = [...response.list];
             const date = new Date(response.list[0].dt * 1000);
             this.currentDay = date.getDay();
             this.firstDay = date.getDay();
+            this.currentIndex = 0;
             const endDate = new Date(response.list[39].dt * 1000);
             this.lastDay = endDate.getDay();
             this.weatherDisplay = true;
